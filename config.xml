@@ -3,9 +3,9 @@
     <access origin="https://goga-api.herokuapp.com/" subdomains="true"></access>
     <tizen:application id="9ILCbbVpAr.GogaTizen" package="9ILCbbVpAr" required_version="3.0"/>
     <author email="hssen.khmaies@esprit.tn">Khmaies Hassen</author>
-    <content src="login.html"/>
+    <content src="loading.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
-    <name>GogaTizen</name>
+    <name>Goga</name>
     <tizen:profile name="mobile"/>
 </widget>

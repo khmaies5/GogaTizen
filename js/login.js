@@ -1,4 +1,27 @@
 window.onload = function() {
+
+
+    setDefaultEvents();
+    /**
+         * Handles the hardware key events.
+         * @private
+         * @param {Object} event - The object contains data of key event
+         */
+         function keyEventHandler(event) {
+            if (event.keyName === "back") {
+                try {
+                    tizen.application.getCurrentApplication().exit();
+                } catch (ignore) {}
+            }
+        }
+             /**
+         * Sets default event listeners.
+         * @private
+         */
+         function setDefaultEvents() {
+            document.addEventListener("tizenhwkey", keyEventHandler);
+        }
+
     document.getElementById("loginBtn").addEventListener("click", function() {
         console.log("click");
          login(loginForm);

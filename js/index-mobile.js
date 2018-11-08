@@ -6,6 +6,31 @@ window.onload = function() {
     var userId =  localStorage.getItem("loginDetails");
     var singlePostData;
     var user ={username:"error",profilepicture:"profile.png"};
+
+
+
+    setDefaultEvents();
+    /**
+         * Handles the hardware key events.
+         * @private
+         * @param {Object} event - The object contains data of key event
+         */
+         function keyEventHandler(event) {
+            if (event.keyName === "back") {
+                try {
+                    tizen.application.getCurrentApplication().exit();
+                } catch (ignore) {}
+            }
+        }
+             /**
+         * Sets default event listeners.
+         * @private
+         */
+         function setDefaultEvents() {
+            document.addEventListener("tizenhwkey", keyEventHandler);
+        }
+
+
 loadUserDetails();
 var object = {};
 loadData().then(data=>{

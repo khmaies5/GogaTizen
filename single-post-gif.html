@@ -118,45 +118,24 @@
 	<div class="single-post app-pages app-section">
 		<div class="container">
 			<div class="entry">
-				<img src="img/single-post.gif" alt="">
-				<h5>Crazy really shows you have to see and you definitely want to try</h5>
-				<div class="user-date">
-					<ul>
-						<li><a href="#"><i class="fa fa-user"></i> Mario Doe</a></li>
-						<li><a href="#"><i class="fa fa-clock-o"></i> 2017-06-07</a></li>
-					</ul>
-				</div>
-				<div class="share">
-					<ul>
-						<li><h6>Share via :</h6></li>
-						<li><a href="#"><i class="fa fa-facebook-square facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter-square twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-google-plus-square google-plus"></i></a></li>
-						<li><a href="#"><i class="fa fa-pinterest pinterest"></i></a></li>
-					</ul>
-				</div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt nemo tempore itaque voluptates. Temporibus iste, illo eius ex ducimus eligendi animi possimus aliquam excepturi omnis eaque veritatis ad. Atque, quas Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio ipsum deleniti nesciunt perferendis dolore voluptatibus soluta ipsam quibusdam velit dignissimos dolores officia maiores ex placeat, ipsa quae est asperiores iste! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel beatae iste doloremque doloribus neque quia. Quasi, ad, optio necessitatibus nesciunt officia perspiciatis non molestias odio a soluta reiciendis, eius incidunt?</p>
-				<div class="tag">
-					<ul>
-						<li><button class="button">Travel</button></li>
-						<li><button class="button">Travel</button></li>
-						<li><button class="button">Travel</button></li>
-						<li><button class="button">Travel</button></li>
-					</ul>
-				</div>
-				<div class="author">
-					<img src="img/author.png" alt="">
-					<div class="entry">
-						<strong><a href="#">John Doe</a></strong>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing</p>
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter-square"></i></a></li>
-							<li><a href="#"><i class="fa fa-google-plus-square"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-						</ul>
+				
+				<div id="myList2">
+					
+					<div class="row">
+						<div class="col s12">
+							<div class="entry">
+								<span class="category">Funny</span>
+								<img src="img/loadingcat.gif" alt="">
+								<h5><a href="#">Loading...</a></h5>
+								<span class="author">By <a href="#">Admin</a></span>
+								<p>Loading...</p>
+							</div>
+						</div>
 					</div>
 				</div>
+				<div id="myList">
+				</div>
+				
 			<!--	<div class="comment">
 					<h6>2 Comment</h6>
 					<div class="content">
@@ -189,66 +168,10 @@
 			
 				<ul class="comment-section">
 
-					<li class="comment user-comment">
+					
 		
-						<div class="info">
-							<a href="#">Anie Silverston</a>
-							<span>4 hours ago</span>
-						</div>
-		
-						<a class="avatar" href="#">
-							<img div="test" src="img/avatar_user_1.jpg" width="35" alt="Profile Avatar" title="Anie Silverston" />
-						</a>
-		
-						<p>Suspendisse gravida sem?</p>
-		
-					</li>
-		
-					<li class="comment author-comment">
-		
-						<div class="info">
-							<a href="#">Jack Smith</a>
-							<span>3 hours ago</span>
-						</div>
-		
-						<a class="avatar" href="#">
-							<img src="img/avatar_author.jpg" width="35" alt="Profile Avatar" title="Jack Smith" />
-						</a>
-		
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida sem sit amet molestie portitor.</p>
-		
-					</li>
-		
-					<li class="comment user-comment">
-		
-						<div class="info">
-							<a href="#">Bradley Jones</a>
-							<span>1 hour ago</span>
-						</div>
-		
-						<a class="avatar" href="#">
-							<img src="img/avatar_user_2.jpg" width="35" alt="Profile Avatar" title="Bradley Jones" />
-						</a>
-		
-						<p>Suspendisse gravida sem sit amet molestie portitor?</p>
-		
-					</li>
-		
-					<li class="comment author-comment">
-		
-						<div class="info">
-							<a href="#">Jack Smith</a>
-							<span>1 hour ago</span>
-						</div>
-		
-						<a class="avatar" href="#">
-							<img src="img/avatar_author.jpg" width="35" alt="Profile Avatar" title="Jack Smith" />
-						</a>
-		
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisee gravida sem sit amet molestie porttitor.</p>
-		
-					</li>
-		
+					
+					
 					<li class="write-new">
 		
 						<form action="#" method="post">
@@ -278,6 +201,91 @@
 	<script src="js/slick.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/custom.js"></script>
+
+	<script>
+	
+loadPost();
+		
+function loadPost(){
+	var postId = localStorage.getItem("postId")
+	var post = ''
+	var url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'?filter=%7B%22include%22%3A%20%22user%22%7D'
+
+	
+
+
+				fetch(url).then(data=>{
+				return data.json();
+				}
+				).then(json=>{
+						
+					console.log(json)
+					$('#myList2').empty();
+
+					 post = `<img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+				<h5>${json.title}</h5>
+				<div class="user-date">
+					<ul>
+						<li><a href="#"><i class="fa fa-user"></i> ${json.user.username}</a></li>
+						<li><a href="#"><i class="fa fa-clock-o"></i> <span data-livestamp="${json.datepublication}"></span></a></li>
+					</ul>
+				</div>
+				<div class="share">
+					<ul>
+						<li><h6>Share via :</h6></li>
+						<li><a href="#"><i class="fa fa-facebook-square facebook"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter-square twitter"></i></a></li>
+						<li><a href="#"><i class="fa fa-google-plus-square google-plus"></i></a></li>
+						<li><a href="#"><i class="fa fa-pinterest pinterest"></i></a></li>
+					</ul>
+				</div>`
+
+		
+		$('#myList').append(post)
+		loadComments();
+	}).catch()
+
+}
+
+		function postComment(){
+
+			
+		}
+
+
+function loadComments(){
+	var postData = JSON.parse(localStorage.getItem("postData"));
+	var postId = localStorage.getItem("postId")
+	console.log("object ",postData.id)
+	var userId = localStorage.getItem("loginDetails");
+	var comments = '';
+		var url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/comments'
+
+	fetch(url).then(data=>{
+		for(var e in data){
+			comments +=`
+			<li class="comment user-comment">
+
+				<div class="info">
+						<a href="#">${data[e].username}</a>
+						<span data-livestamp="${data[e].createdDate}"></span>
+				</div>
+
+			<a class="avatar" href="#">
+			<img src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].profilepicture}" width="35" alt="Profile Avatar" title="Anie Silverston" />
+			</a>
+
+				<p>${data[e].text}</p>
+
+				</li>
+			`
+
+		}
+		$('#comment-section').append(comments)
+		
+	}).catch()
+}
+	</script>
 
 </body>
 

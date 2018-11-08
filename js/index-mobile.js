@@ -4,17 +4,19 @@
 window.onload = function() {
     var posts ="";
     var userId =  localStorage.getItem("loginDetails");
-
+    var singlePostData;
     var user ={username:"error",profilepicture:"profile.png"};
 loadUserDetails();
-
+var object = {};
 loadData().then(data=>{
     $('#myList2').empty();
     $('#myList').empty();
     for(var e in data){
 
         
-        console.log(data[e].upvotes.indexOf(userId));
+        
+        object = data[e];
+        console.log( object)
         if(data[e].upvotes.indexOf(userId)==-1)
         {posts += `<div class="card gedf-card">
         <div class="card-header">
@@ -25,7 +27,6 @@ loadData().then(data=>{
                     </div>
                     <div class="ml-2">
                         <div class="h5 m-0">${data[e].user.username}</div>
-                        <div class="h7 text-muted">Miracles Lee Cross</div>
                     </div>
                 </div>
               
@@ -45,7 +46,7 @@ loadData().then(data=>{
         </div>
         <div class="card-footer">
            <a  onclick="Like('${data[e].id}',event)" class="card-link"><i  id="${data[e].id}" class="fa fa-gittip"></i>&nbsp${data[e].numberOfUpVotes} Like</a>
-            <a href="#" onclick="openComments(${data[e].id});return false;" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+            <a href="#" onclick="openComments('${data[e].id}','${object}',event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
             <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
             </div>
     </div>`}else{posts += `<div class="card gedf-card">
@@ -76,7 +77,7 @@ loadData().then(data=>{
     </div>
     <div class="card-footer">
        <a  onclick="Like('${data[e].id}',event)" class="card-link"><i style="color:red;" id="${data[e].id}" class="fa fa-gittip"></i>&nbsp${data[e].numberOfUpVotes} Like</a>
-        <a href="#" onclick="openComments(${data[e].id});return false;" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+        <a href="#" onclick="openComments('${data[e].id}',JSON.stringify(${data[e]}),event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
         <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
         </div>
 </div>`}
@@ -105,6 +106,20 @@ loadData().then(data=>{
 
 
       
+
+}
+
+
+
+
+function openComments(id,data){
+console.log(id);
+console.log(data[1])
+    localStorage.setItem("postId", id);
+    localStorage.setItem("postData",JSON.stringify(data));
+    window.location.href = "single-post-gif.html"
+
+
 
 }
 

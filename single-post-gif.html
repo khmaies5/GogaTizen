@@ -136,37 +136,8 @@
 				<div id="myList">
 				</div>
 				
-			<!--	<div class="comment">
-					<h6>2 Comment</h6>
-					<div class="content">
-						<img src="img/comment1.png" alt="">
-						<div class="entry">
-							<strong><a href="#">John Doe</a></strong>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing</p>
-						</div>
-					</div>
-					<div class="content">
-						<img src="img/comment2.png" alt="">
-						<div class="entry">
-							<strong><a href="#">John Doe</a></strong>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing</p>
-						</div>
-					</div>
-				</div>-->
-			<!--	<div class="post-comment">
-					<h6>Leave a Reply</h6>
-					<div class="content">
-						<form action="#">
-							<input type="text" placeholder="Name">
-							<input type="email" placeholder="Email">
-							<input type="text" placeholder="Website">
-							<textarea cols="20" rows="10" placeholder="Comment"></textarea>
-							<button class="button">Post Comment</button>
-						</form>
-					</div>
-				</div>-->
-			
-				<ul class="comment-section">
+	
+				<ul id="com" class="comment-section">
 
 					
 		
@@ -176,17 +147,17 @@
 		
 						<form action="#" method="post">
 		
-							<textarea placeholder="Write your comment here" name="comment"></textarea>
+							<textarea id="commentText" placeholder="Write your comment here" name="comment"></textarea>
 		
 							<div>
 								
-								<button type="submit">Submit</button>
+								<button onclick="postComment(event)" type="submit">Submit</button>
 							</div>
 		
 						</form>
 		
 					</li>
-		
+		<br><br><br>
 				</ul>
 			</div>
 		</div>
@@ -247,41 +218,79 @@ function loadPost(){
 
 }
 
-		function postComment(){
-
+		function postComment(event){
+			event.preventDefault();
 			
+			
+			
+			///////////////////////////////
+			var userId =  localStorage.getItem("loginDetails");
+			var postId = localStorage.getItem("postId")
+
+    const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/comments';
+    // The data we are going to send in our request
+    let data = {
+        userId: userId,
+		text:$("#commentText").val(),
+		profilepicture:"profile.png"
+		
+    }
+    console.info(data);
+    // Create our request constructor with all the parameters we need
+    var request = new Request(url, {
+        method: 'POST', 
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(data)
+    });
+    
+    fetch(request)
+    .then(data=> {
+        if(data.ok){
+			window.location.href = "single-post-gif.html"
+        }else{
+            console.log("error submit ", data)
+
+              
+    }
+        // Handle response we get from the API
+    }).catch(err=>{
+
+        console.log("post ",err)
+    })
+
+
 		}
 
 
 function loadComments(){
 	var postData = JSON.parse(localStorage.getItem("postData"));
 	var postId = localStorage.getItem("postId")
-	console.log("object ",postData.id)
 	var userId = localStorage.getItem("loginDetails");
 	var comments = '';
 		var url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/comments'
 
-	fetch(url).then(data=>{
+	fetch(url).then(response=>{
+		return response.json();
+	}).then(data=>{
 		for(var e in data){
-			comments +=`
-			<li class="comment user-comment">
-
-				<div class="info">
+			console.log(data)
+			comments +=`<li class="comment user-comment">
+					<div class="info">
 						<a href="#">${data[e].username}</a>
 						<span data-livestamp="${data[e].createdDate}"></span>
 				</div>
-
 			<a class="avatar" href="#">
-			<img src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].profilepicture}" width="35" alt="Profile Avatar" title="Anie Silverston" />
+			<img src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].profilepicture}"style="width:25px;height:25px;" height="10" width="10" alt="Profile Avatar" title="${data[e].username}" />
 			</a>
-
 				<p>${data[e].text}</p>
-
 				</li>
 			`
-
 		}
-		$('#comment-section').append(comments)
+		document.getElementById('com').innerHTML += comments;
+		$('#entry ul').html(comments);
 		
 	}).catch()
 }

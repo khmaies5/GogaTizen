@@ -49,7 +49,8 @@ loadData().then(data=>{
             <a href="#" onclick="openComments('${data[e].id}','${object}',event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
             <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
             </div>
-    </div>`}else{posts += `<div class="card gedf-card">
+    </div>`}else{
+        posts += `<div class="card gedf-card">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex justify-content-between align-items-center">

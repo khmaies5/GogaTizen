@@ -244,9 +244,10 @@ function loadPost(){
             // "Content-Type": "application/x-www-form-urlencoded",
         },
         body: JSON.stringify(data)
-    });
-    
-    fetch(request)
+	});
+	console.log("commmmm ",$("#commentText").val())
+    if($("#commentText").val() != "")
+    {fetch(request)
     .then(data=> {
         if(data.ok){
 			window.location.href = "single-post-gif.html"
@@ -259,7 +260,10 @@ function loadPost(){
     }).catch(err=>{
 
         console.log("post ",err)
-    })
+    })}else {
+
+		 window.Materialize.toast('comment cant be empty !', 2000)
+	}
 
 
 		}

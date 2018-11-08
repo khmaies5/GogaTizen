@@ -208,8 +208,8 @@ function uploadImage(){
         
         body: fd
     });
-    
-    fetch(request)
+  if(fd!=null&&$("#descrition").val()!="")  
+    {fetch(request)
     .then(data=> {
         if(data.ok){
 			SaveProduct();			
@@ -222,7 +222,10 @@ function uploadImage(){
     }).catch(err=>{
 
         console.log("upload ",err)
-    })
+    })}else {
+		window.Materialize.toast('you need to choose image and write something !', 4000)
+
+	}
 
 
 }

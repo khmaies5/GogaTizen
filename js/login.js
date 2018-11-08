@@ -8,7 +8,7 @@ window.onload = function() {
         loggedIn.style.visibility = "hidden"
 
 
-    }
+    };
     var json;
 var xhr = new XMLHttpRequest();
 var loginForm = document.getElementById("LoginForm");
@@ -30,19 +30,23 @@ function login(form) {
             console.log(json);
      
             localStorage.setItem("loginDetails", json.userId);
+            localStorage.setItem("Atoken", json.id);
+
             console.log("login ",localStorage.getItem("loginDetails"));
 
             loginResults();
             console.log("not error");
 
         }else {
-            console.log("error");
-            loginResults()}
+        	loginResults();
+            console.log("error ",xhr.statusText);
+            
+            }
     } 
 
     var data = JSON.stringify({"email": un, "password": pw});
         xhr.send(data);
-        console.log(xhr.status);
+        console.log(xhr.statusText);
 
 }
 
@@ -61,8 +65,7 @@ function login(form) {
        location.replace("index-mobile.html");
        // navigate to home and store user details her
     } else {
-        badLogin.innerHTML = `The login information you entered does not match 
-        an account in our records. Please try again.`
+        badLogin.innerHTML = "The login information you entered does not match an account in our records. Please try again.";
         badLogin.style.visibility = "visible";
         badLogin.style.display = "block";
         loginForm.email.select();

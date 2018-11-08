@@ -9,7 +9,12 @@
 	<meta name="HandheldFriendly" content="True">
 	
 	<link rel="shortcut icon" href="img/favicon.png">
-
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/materialize.min.css">
 	<link rel="stylesheet" href="css/slick.css">
@@ -165,15 +170,30 @@
 
 	<!-- post -->
 	<div class="post app-section">
-		<div class="container">
-			<div id="myList">
+			<div id="myList2">
 					
-			
+				<div class="row">
+					<div class="col s12">
+						<div class="entry">
+							<span class="category">Funny</span>
+							<img src="img/loadingcat.gif" alt="">
+							<h5><a href="#">Loading...</a></h5>
+							<span class="author">By <a href="#">Admin</a></span>
+							<p>Loading...</p>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
+			<div id="myList">
+			</div>
 	</div>
 	<!-- end post -->
-
+	<div class="fixed-action-btn">
+		<a href="new-post.html" class="btn-floating btn-large red">
+		  <i class="large material-icons"><i class="fa fa-plus-circle" aria-hidden="true"></i></i>
+		</a>
+		
+	  </div>
 	
 	
 	<!-- script -->
@@ -184,6 +204,8 @@
 	<script src="js/slick.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="js/moment.min.js"></script>
+	<script src="js/livestamp.min.js"></script>
 	
 
 

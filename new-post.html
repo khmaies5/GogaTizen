@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Goga - funny & memes</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True">
+	
+	<link rel="shortcut icon" href="img/favicon.png">
+
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/materialize.min.css">
+	<link rel="stylesheet" href="css/slick.css">
+	<link rel="stylesheet" href="css/slick-theme.css">
+	<link rel="stylesheet" href="css/owl.carousel.css">
+	<link rel="stylesheet" href="css/owl.theme.css">
+	<link rel="stylesheet" href="css/owl.transitions.css">
+	<link rel="stylesheet" href="css/lightbox.min.css">
+	<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+	<!-- navbar -->
+	<div class="navbar">
+		<div class="container">
+			<div class="panel-control-left">
+				<a href="#" data-activates="slide-out-left" class="sidenav-control-left"><i class="fa fa-bars"></i></a>
+			</div>
+			<div class="site-title">
+				<a href="" class="logo"><h1>Goga</h1></a>
+			</div>
+			<div class="panel-control-right">
+				<a href="#" data-activates="slide-out-right" class="sidenav-control-right"><i class="fa fa-user"></i></a>
+			</div>
+		</div>
+	</div>
+	<!-- end navbar -->
+
+	<!-- panel control left -->
+	<div class="panel-control-left">
+		<ul id="slide-out-left" class="side-nav collapsible" data-collapsible="accordion" style="transform: translateX(-100%);">
+			<li>
+				<div class="search">
+					<form action="#">
+						<input type="text" placeholder="Search">
+						<button class="button"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+			</li>
+			<li>
+					<a href="index-mobile.html"><i class="fa fa-home"></i>Home</a>
+
+			
+			</li>
+			<li>
+				<div class="collapsible-header"><i class="fa fa-th-large"></i>Categories <span><i class="fa fa-chevron-right"></i></span></div>
+				<div class="collapsible-body">
+					<ul class="side-nav-panel">
+						<li><a href="category.html">Funny</a></li>
+						<li><a href="category.html">Animal</a></li>
+						<li><a href="category.html">Selfie</a></li>
+						<li><a href="category.html">People</a></li>
+						<li><a href="category.html">Extreme</a></li>
+						<li><a href="category.html">Crazy</a></li>
+					</ul>
+				</div>
+			</li>
+			
+			<li>
+				<div class="collapsible-header"><i class="fa fa-file-powerpoint-o"></i>Pages <span><i class="fa fa-chevron-right"></i></span></div>
+				<div class="collapsible-body">
+					<ul class="side-nav-panel">
+						
+						<li><a href="gallery.html">Gallery</a></li>
+						<li><a href="testimonial.html">Testimonial</a></li>
+					</ul>
+				</div>
+			</li>
+			
+			<li>
+				<a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a>
+			</li>
+			<li>
+				<a href="login.html"><i class="fa fa-sign-out"></i>Signout</a>
+			</li>
+			
+		</ul>
+	</div>
+	<!-- end panel control left -->
+
+	<!-- panel control right -->
+	<div class="panel-control-right">
+		<ul id="slide-out-right" class="side-nav collapsible right-aligned" data-collapsible="accordion" style="transform: translateX(100%);">
+			<li>
+				<div class="photos">
+					<img src="img/photos.png" alt="">
+					<div id="name">
+					<h3>Jhon Doe</h3>
+				</div>
+				</div>
+			</li>
+
+			<li>
+				<a href="settings.html"><i class="fa fa-cog"></i>Settings</a>
+			</li>
+			<li>
+				<a href="author-page.html"><i class="fa fa-list"></i>My Posts</a>
+			</li>
+			
+		</ul>
+	</div>
+	<!-- end panel control right -->
+
+
+
+
+	<!-- register-->
+	<div class="register app-pages app-section">
+		<div class="container">
+			<div class="pages-title">
+				<h3>Register</h3>
+			</div>
+			<form  id="AddPostForm" onsubmit="return false">
+					  <span>Image</span>
+					  <input id="files" type="file">
+				
+
+				<div class="post">
+					<div class="entry" id="preview" style="display:none;">
+					</div>
+				</div>
+
+				<input type="text" id="descrition" placeholder="Short description">
+
+				<span class="helper-text" id='message'></span>
+					<div class="loader" id="submitLoader" style="width: 25px;margin: 15px auto;height: 13px;display: none;">
+						<div>
+							<div style="animation: rotate .75s 0s linear infinite;border:2px solid #E2B13C ;-webkit-animation: rotate .75s 0s linear infinite;"></div>
+						</div>
+					</div>
+					<div>
+						<div id="msg" style="width: 75%;display:none;margin:0 auto 5px auto">Product Added Successfully</div>
+					</div>
+				<button class="button" onclick="uploadImage()" id="register">Post</button>
+			</form>
+			
+		</div>
+	</div>
+	<!-- end register -->
+	
+	
+	
+	<!-- script -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/materialize.min.js"></script>
+	<script src="js/slick.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/custom.js"></script>
+	<script>
+	var filename;
+	var strImage;
+	var image;
+		$("#files").val("");
+			$(document).ready(function () {
+				if (window.File && window.FileList && window.FileReader) {
+					$("#files").on("change", function (e) {
+						var files = e.target.files,
+							filesLength = files.length;
+						for (var i = 0; i < filesLength; i++) {
+							var f = files[i]
+							var fileReader = new FileReader();
+							filename = files[i].name;
+							image = files[0];
+							fileReader.filename = files[i].name.split('.')[0];
+							fileReader.onload = (function (e) {
+								var file = e.target;
+								$('#preview').children().last().remove();
+								// fill array of images with data selected to send to request	 
+								$("#preview").attr('style', 'display:flex;overflow-x: scroll;overflow-y: hidden;');
+								$("<img></img>", {
+									id: "prevthumbnail",
+									class: "entry",
+									src: e.target.result,
+									title: file.filename
+								}).appendTo("#preview");
+								// fill image array with 64 base images 
+								//filter image base 64 from prefixes data:image/....
+								 strImage = e.target.result.replace(/^data:image\/[a-z]+;base64,/, "");
+							});
+							fileReader.readAsDataURL(f);
+						}
+					});
+				} else { alert("Your browser doesn't support to File API") }
+			});
+function uploadImage(){
+	$("#submitLoader").css("display", "block");
+
+	 const url = 'https://goga-api.herokuapp.com/api/attachments/images/upload';
+	 var fd = new FormData();
+    // The data we are going to send in our request
+    fd.append('file',image)
+    // Create our request constructor with all the parameters we need
+    var request = new Request(url, {
+        method: 'POST', 
+        
+        body: fd
+    });
+  if(fd!=null&&$("#descrition").val()!="")  
+    {fetch(request)
+    .then(data=> {
+        if(data.ok){
+			SaveProduct();			
+        }else{
+            console.log("error upload ", data)
+
+              
+    }
+        // Handle response we get from the API
+    }).catch(err=>{
+
+        console.log("upload ",err)
+    })}else {
+		window.Materialize.toast('you need to choose image and write something !', 4000)
+
+	}
+
+
+}
+			function SaveProduct() {
+			//loader show 
+			$("#submitLoader").css("display", "block");
+			
+			///////////////////////////////
+			var userId =  localStorage.getItem("loginDetails");
+    const url = 'https://goga-api.herokuapp.com/api/posts';
+    // The data we are going to send in our request
+    let data = {
+        userId: userId,
+		title:$("#descrition").val(),
+		type:filename
+    }
+    console.info(data);
+    // Create our request constructor with all the parameters we need
+    var request = new Request(url, {
+        method: 'POST', 
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(data)
+    });
+    
+    fetch(request)
+    .then(data=> {
+        if(data.ok){
+			$("#submitLoader").css("display", "none");
+					$("#msg").css("display", "block");
+					$('#msg').fadeIn();
+					$('#msg').fadeOut(2000, function () { window.location.href = "index-mobile.html"; }
+					);
+        }else{
+            console.log("error submit ", data)
+
+              
+    }
+        // Handle response we get from the API
+    }).catch(err=>{
+
+        console.log("post ",err)
+    })
+
+
+
+
+		}
+		</script>
+</body>
+
+</html>

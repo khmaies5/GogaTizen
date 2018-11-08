@@ -28,36 +28,6 @@ function settings(form) {
 
     document.getElementById("name").innerHTML = name;
 
-
-
-    /* var url = "https://goga-api.herokuapp.com/api/users/login";
-     xhr.open("POST", url, true);
-     xhr.setRequestHeader("Content-Type", "application/json");
-
-
-
-     xhr.onreadystatechange = function() {
-         if (xhr.readyState == 4 && xhr.status == 200) {
-             json = JSON.parse(xhr.responseText);
-
-             console.log(json);
-
-             localStorage.setItem("loginDetails", json.userId);
-             console.log("login ", localStorage.getItem("loginDetails"));
-
-             loginResults();
-             console.log("not error");
-
-         } else {
-             console.log("error");
-             loginResults()
-         }
-     }
-
-     var data = JSON.stringify({ "email": un, "password": pw });
-     xhr.send(data);
-     console.log(xhr.status);*/
-
 }
 
 

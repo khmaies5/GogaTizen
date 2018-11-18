@@ -156,7 +156,7 @@ function Like(postId, event){
     idClass += postId;
     var Atoken = localStorage.getItem("Atoken");
     var userId =  localStorage.getItem("loginDetails");
-    const url = 'http://localhost:3000/api/posts/'+postId+'/upvote';
+    const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/upvote';
     // The data we are going to send in our request
     let data = {
         userId: userId,
@@ -200,7 +200,7 @@ function checkLike(){
 function dislike(postId){
     var Atoken = localStorage.getItem("Atoken");
     var userId =  localStorage.getItem("loginDetails");
-    const url = 'http://localhost:3000/api/posts/'+postId+'/downvote';
+    const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/downvote';
     // The data we are going to send in our request
     let data = {
         userId: userId,
@@ -244,6 +244,10 @@ function loadUserDetails(){
             //loginResults();
             console.log("not error");
             document.getElementById("name").innerHTML = json.username
+            
+            localStorage.setItem("username", json.username);
+            localStorage.setItem("profilepicture", json.profilepicture);
+
 
         }else {
             console.log("error");

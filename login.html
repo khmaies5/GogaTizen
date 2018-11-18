@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True">
-	
+
 	<link rel="shortcut icon" href="img/favicon.png">
 
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -18,28 +18,35 @@
 	<link rel="stylesheet" href="css/owl.theme.css">
 	<link rel="stylesheet" href="css/owl.transitions.css">
 	<link rel="stylesheet" href="css/lightbox.min.css">
+	<link rel="stylesheet" type="text/css" href="css/loading.css" />
+	<link rel="stylesheet" type="text/css" href="css/loading-btn.css" />
 	<link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
 	<!-- navbar -->
 	<div class="navbar">
 		<div class="container">
-			
+
 			<div class="site-title">
-				<a class="logo"><h1>Goga</h1></a>
+				<a class="logo">
+					<h1>Goga</h1>
+				</a>
 			</div>
-			
+
 		</div>
 	</div>
 	<!-- end navbar -->
 
 
-	
+
 	<!-- login-->
 	<div class="login app-pages app-section">
+
 		<div class="container">
+
 			<div class="pages-title">
 				<h3>Login</h3>
 			</div>
@@ -49,28 +56,26 @@
 				<div><a href="#" class="forgot">Forgot Password?</a></div>
 				<div class="chebox">
 					<input type="checkbox" id="checkbox">
-  					<label for="checkbox">Remember me</label>
+					<label for="checkbox">Remember me</label>
 				</div>
-				<button class="button" id="loginBtn">Login</button>
+				<button class="button ld-over running" id="loginBtn" disabled>Login
+						<div class="ld ld-ring ld-spin"></div>
+
+				</button>
 				<div class="create-account">Not Registered? <a href="register.html">Create an account</a></div>
 				<div id="BadLogin">
 					<p></p>
 				</div>
 			</form>
-			<div class="or">
-				<h5>OR</h5>
-				<button class="button facebook">Login with Facebook</button>
-				<button class="button twitter">Login with Twitter</button>
-				<button class="button google">Login with Google+</button>
-			</div>
+			
 		</div>
 	</div>
 	<!-- end login -->
-	
-	
-	
-	
-	
+
+
+
+
+
 	<!-- script -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/materialize.min.js"></script>

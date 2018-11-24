@@ -4,14 +4,15 @@ window.onload = function() {
 
     document.getElementById("register").addEventListener("click", function() {
         console.log("click");
-         register(registerForm);
-     });
+        register(registerForm);
+    });
 
 
 }
 
+var xhr = new XMLHttpRequest();
 
-function register(form){
+function register(form) {
 
 
     var un = form.email.value;
@@ -25,26 +26,27 @@ function register(form){
     xhr.setRequestHeader("Content-Type", "application/json");
 
 
-   
-    xhr.onreadystatechange = function () {
+
+    xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             console.log(json);
             loginResults();
             console.log("not error");
 
-        }else {
+        } else {
             console.log("error");
-            loginResults()}
-    } 
+            loginResults()
+        }
+    }
 
-    var data = JSON.stringify({"email": un, "password": pw, "username":uname, "lastname":lname, "firstname": fname});
-        xhr.send(data);
-        console.log(xhr.status);
+    var data = JSON.stringify({ "email": un, "password": pw, "username": uname, "lastname": lname, "firstname": fname });
+    xhr.send(data);
+    console.log(xhr.status);
 
 }
 
-function loginResults(){
+function loginResults() {
 
 
     if (xhr.status == 200) {
@@ -59,13 +61,13 @@ function loginResults(){
 
 var check = function() {
     if (document.getElementById('password').value ==
-      document.getElementById('confirm_password').value) {
-      document.getElementById('message').style.color = 'green';
-      document.getElementById('message').innerHTML = 'matching';
-      document.getElementById('confirm_password').className="validate";
+        document.getElementById('confirm_password').value) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerHTML = 'matching';
+        document.getElementById('confirm_password').className = "validate";
     } else {
-      document.getElementById('message').style.color = 'red';
-      document.getElementById('message').innerHTML = 'not matching';
-      document.getElementById('confirm_password').className="validate invalid";
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'not matching';
+        document.getElementById('confirm_password').className = "validate invalid";
     }
-  }
+}

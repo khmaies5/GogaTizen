@@ -1,6 +1,7 @@
 window.onload = function() {
 
-
+    loginForm = document.getElementById("LoginForm");
+    loginBtn = document.getElementById("loginBtn");
     setDefaultEvents();
     /**
      * Handles the hardware key events.
@@ -22,7 +23,7 @@ window.onload = function() {
         document.addEventListener("tizenhwkey", keyEventHandler);
     }
 
-    document.getElementById("loginBtn").addEventListener("click", function() {
+    loginBtn.addEventListener("click", function() {
         console.log("click");
         login(loginForm);
     });
@@ -34,11 +35,13 @@ window.onload = function() {
 };
 var json;
 var xhr = new XMLHttpRequest();
-var loginForm = document.getElementById("LoginForm");
+var loginForm ;
+var loginBtn;
 
 function login(form) {
     var un = form.email.value;
     var pw = form.password.value;
+    loginBtn.className += " running";
 
     var url = "https://goga-api.herokuapp.com/api/users/login";
     xhr.open("POST", url, true);
@@ -78,6 +81,7 @@ function loginResults() {
     //var loggedIn = document.getElementById("LoggedIn");
     var badLogin = document.getElementById("BadLogin");
     if (xhr.status == 200) {
+
         badLogin.innerHTML = "Logged in as " + xhr.responseText;
 
         badLogin.style.visibility = "visible";
@@ -94,6 +98,8 @@ function loginResults() {
         loginForm.email.select();
         loginForm.email.className = "validate invalid";
         loginForm.password.className = "validate invalid";
+        loginBtn.className = "button ld-over";
+
         /* setTimeout(function() {
             badLogin.style.display = 'none';
         }, 3000);*/

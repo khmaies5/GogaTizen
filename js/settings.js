@@ -6,7 +6,7 @@ window.onload = function() {
            login(loginForm);
        });*/
 
-
+           
     settings(settingsForm);
 
 }

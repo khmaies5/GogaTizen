@@ -1,8 +1,11 @@
-window.onload = function() {
+window.onload = function () {
     var posts = "";
     var userId = localStorage.getItem("loginDetails");
     var singlePostData;
-    var user = { username: "error", profilepicture: "profile.png" };
+    var user = {
+        username: "error",
+        profilepicture: "profile.png"
+    };
 
 
 
@@ -33,13 +36,16 @@ window.onload = function() {
     loadData().then(data => {
         $('#myList2').empty();
         $('#myList').empty();
+
+
+
         for (var e in data) {
 
 
 
-            object = data[e];
-            console.log(object)
-            if (data[e].upvotes.indexOf(userId) == -1) { posts += `<div class="card gedf-card">
+            if (data[e].upvotes.indexOf(userId) == -1) {
+
+                posts += `<div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
@@ -58,8 +64,7 @@ window.onload = function() {
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp="${data[e].datepublication}"></span></div>
             <div class="entry">
             <span class="category">Funny</span>
-            <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}
-            " alt="">
+            <img src= "https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
             <h5><a href="#">${data[e].title}</a></h5>
            
         </div>
@@ -67,10 +72,10 @@ window.onload = function() {
         </div>
         <div class="card-footer">
            <a  onclick="Like('${data[e].id}',event)" class="card-link"><i  id="${data[e].id}" class="fa fa-gittip"></i>&nbsp${data[e].numberOfUpVotes} Like</a>
-            <a href="#" onclick="openComments('${data[e].id}','${object}',event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-            <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+            <a href="#" onclick="openComments('${data[e].id}','${data[e]}',event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
             </div>
-    </div>` } else {
+    </div>`
+            } else {
                 posts += `<div class="card gedf-card">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
@@ -91,7 +96,7 @@ window.onload = function() {
         <div class="entry">
         <span class="category">Funny</span>
         <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}
-        " alt="">
+        " onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
         <h5><a href="#">${data[e].title}</a></h5>
        
     </div>
@@ -100,7 +105,6 @@ window.onload = function() {
     <div class="card-footer">
        <a  onclick="Like('${data[e].id}',event)" class="card-link"><i style="color:red;" id="${data[e].id}" class="fa fa-gittip"></i>&nbsp${data[e].numberOfUpVotes} Like</a>
         <a href="#" onclick="openComments('${data[e].id}',JSON.stringify(${data[e]}),event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-        <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
         </div>
 </div>`
             }
@@ -133,7 +137,12 @@ window.onload = function() {
 }
 
 
-
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
 
 function openComments(id, data) {
     console.log(id);
@@ -152,8 +161,8 @@ function Like(postId, event) {
     var idClass = '#';
     idClass += postId;
     var Atoken = localStorage.getItem("Atoken");
-    var userId =  localStorage.getItem("loginDetails");
-    const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/upvote';
+    var userId = localStorage.getItem("loginDetails");
+    const url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/upvote';
     // The data we are going to send in our request
     let data = {
         userId: userId,
@@ -196,8 +205,8 @@ function checkLike() {
 
 function dislike(postId) {
     var Atoken = localStorage.getItem("Atoken");
-    var userId =  localStorage.getItem("loginDetails");
-    const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/downvote';
+    var userId = localStorage.getItem("loginDetails");
+    const url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/downvote';
     // The data we are going to send in our request
     let data = {
         userId: userId,
@@ -215,7 +224,7 @@ function dislike(postId) {
     });
 
     fetch(request)
-        .then(function() {
+        .then(function () {
             console.log("dislike")
 
 
@@ -227,9 +236,6 @@ function dislike(postId) {
 
 function loadUserDetails() {
     console.log(localStorage.getItem("loginDetails"));
-    var photo1 = localStorage.getItem("profilepicture");
-
-    document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
 
     var xhr = new XMLHttpRequest();
 
@@ -238,16 +244,15 @@ function loadUserDetails() {
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             console.log(json);
             //loginResults();
             console.log("not error");
             document.getElementById("name").innerHTML = json.username
+
             
-            localStorage.setItem("username", json.username);
-            localStorage.setItem("profilepicture", json.profilepicture);
 
 
             localStorage.setItem("username", json.username);
@@ -262,10 +267,15 @@ function loadUserDetails() {
     }
     xhr.send();
 
+    var photo1 = localStorage.getItem("profilepicture");
+
+    document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+
+
 }
 
 
-const loadData = async() => {
+const loadData = async () => {
     const url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%2C%22include%22%3A%20%22user%22%7D";
 
 
@@ -285,7 +295,7 @@ function loadPosts() {
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             console.log(json);

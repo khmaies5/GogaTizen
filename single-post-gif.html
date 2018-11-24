@@ -27,9 +27,7 @@
 	<!-- navbar -->
 	<div class="navbar">
 			<div class="container">
-				<div class="panel-control-left">
-					<a href="#" data-activates="slide-out-left" class="sidenav-control-left"><i class="fa fa-bars"></i></a>
-				</div>
+				
 				<div class="site-title">
 					<a href="" class="logo"><h1>Goga</h1></a>
 				</div>
@@ -41,55 +39,7 @@
 		<!-- end navbar -->
 	
 		<!-- panel control left -->
-		<div class="panel-control-left">
-			<ul id="slide-out-left" class="side-nav collapsible" data-collapsible="accordion" style="transform: translateX(-100%);">
-				<li>
-					<div class="search">
-						<form action="#">
-							<input type="text" placeholder="Search">
-							<button class="button"><i class="fa fa-search"></i></button>
-						</form>
-					</div>
-				</li>
-				<li>
-						<a href="index-mobile.html"><i class="fa fa-home"></i>Home</a>
-	
-				
-				</li>
-				<li>
-					<div class="collapsible-header"><i class="fa fa-th-large"></i>Categories <span><i class="fa fa-chevron-right"></i></span></div>
-					<div class="collapsible-body">
-						<ul class="side-nav-panel">
-							<li><a href="category.html">Funny</a></li>
-							<li><a href="category.html">Animal</a></li>
-							<li><a href="category.html">Selfie</a></li>
-							<li><a href="category.html">People</a></li>
-							<li><a href="category.html">Extreme</a></li>
-							<li><a href="category.html">Crazy</a></li>
-						</ul>
-					</div>
-				</li>
-				
-				<li>
-					<div class="collapsible-header"><i class="fa fa-file-powerpoint-o"></i>Pages <span><i class="fa fa-chevron-right"></i></span></div>
-					<div class="collapsible-body">
-						<ul class="side-nav-panel">
-							
-							<li><a href="gallery.html">Gallery</a></li>
-							<li><a href="testimonial.html">Testimonial</a></li>
-						</ul>
-					</div>
-				</li>
-				
-				<li>
-					<a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a>
-				</li>
-				<li>
-					<a href="login.html"><i class="fa fa-sign-out"></i>Signout</a>
-				</li>
-				
-			</ul>
-		</div>
+		
 		<!-- end panel control left -->
 	
 		<!-- panel control right -->
@@ -97,19 +47,24 @@
 			<ul id="slide-out-right" class="side-nav collapsible right-aligned" data-collapsible="accordion" style="transform: translateX(100%);">
 				<li>
 					<div class="photos">
-						<img src="img/photos.png" alt="">
+						<img id="photop" src="img/photos.png" alt="">
 						<div id="name">
 						<h3>Jhon Doe</h3>
 					</div>
 					</div>
 				</li>
-	
+                <li>
+                    <a href="index-mobile.html"><i class="fa fa-home"></i>Home</a>           
+            </li>
 				<li>
 					<a href="settings.html"><i class="fa fa-cog"></i>Settings</a>
 				</li>
 				<li>
 					<a href="author-page.html"><i class="fa fa-list"></i>My Posts</a>
-				</li>
+                </li>
+                <li>
+                    <a href="login.html"><i class="fa fa-sign-out"></i>Sign-out</a>
+                </li>
 				
 			</ul>
 		</div>
@@ -127,8 +82,8 @@
 							<div class="entry">
 								<span class="category">Funny</span>
 								<img src="img/loadingcat.gif" alt="">
-								<h5><a href="#">Loading...</a></h5>
-								<span class="author">By <a href="#">Admin</a></span>
+								<h5><a >Loading...</a></h5>
+								<span class="author">By <a >Admin</a></span>
 								<p>Loading...</p>
 							</div>
 						</div>
@@ -172,10 +127,18 @@
 	<script src="js/materialize.min.js"></script>
 	<script src="js/slick.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/custom.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/moment.min.js"></script>
+
+    <script src="js/livestamp.min.js"></script>
 
 	<script>
 	document.getElementById("name").innerHTML =   localStorage.getItem("username");
+
+
+    var photo1 = localStorage.getItem("profilepicture");
+
+    document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
 
             
 
@@ -208,7 +171,7 @@
             var post = ''
             var url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '?filter=%7B%22include%22%3A%20%22user%22%7D'
 
-
+            var username = "user";
 
 
             fetch(url).then(data => {
@@ -217,24 +180,19 @@
 
                 console.log(json)
                 $('#myList2').empty();
+                if(json.user.username){
+                    username = json.user.username;
+                }
 
-                post = `<img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+                post = `<img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
 				<h5>${json.title}</h5>
 				<div class="user-date">
 					<ul>
-						<li><a href="#"><i class="fa fa-user"></i> ${json.user.username}</a></li>
-						<li><a href="#"><i class="fa fa-clock-o"></i> <span data-livestamp="${json.datepublication}"></span></a></li>
+						<li><a ><i class="fa fa-user"></i> ${username}</a></li>
+						<li><a ><i class="fa fa-clock-o"></i> <span data-livestamp="${json.datepublication}"></span></a></li>
 					</ul>
 				</div>
-				<div class="share">
-					<ul>
-						<li><h6>Share via :</h6></li>
-						<li><a href="#"><i class="fa fa-facebook-square facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter-square twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-google-plus-square google-plus"></i></a></li>
-						<li><a href="#"><i class="fa fa-pinterest pinterest"></i></a></li>
-					</ul>
-				</div>`
+`
 
 
                 $('#myList').append(post)
@@ -257,7 +215,8 @@
             let data = {
                 userId: userId,
                 text: $("#commentText").val(),
-                profilepicture: "profile.png"
+                profilepicture: "profile.png",
+                username: localStorage.getItem("username")
 
             }
             console.info(data);
@@ -309,11 +268,11 @@
                     console.log(data)
                     comments += `<li class="comment user-comment">
 					<div class="info">
-						<a href="#">${data[e].username}</a>
+						<a >${data[e].username}</a>
 						<span data-livestamp="${data[e].createdDate}"></span>
 				</div>
-			<a class="avatar" href="#">
-			<img src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].profilepicture}"style="width:25px;height:25px;" height="10" width="10" alt="Profile Avatar" title="${data[e].username}" />
+			<a class="avatar" >
+			<img src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].profilepicture}" style="width:25px;height:25px;" height="10" width="10" alt="Profile Avatar" title="${data[e].username}" />
 			</a>
 				<p>${data[e].text}</p>
 				</li>

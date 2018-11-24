@@ -40,7 +40,7 @@ function register(form) {
         }
     }
 
-    var data = JSON.stringify({ "email": un, "password": pw, "username": uname });
+    var data = JSON.stringify({ "email": un, "password": pw, "username": uname, "lastname": lname, "firstname": fname });
     xhr.send(data);
     console.log(xhr.status);
 

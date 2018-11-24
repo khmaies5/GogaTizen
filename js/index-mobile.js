@@ -1,49 +1,45 @@
-
-
-
 window.onload = function() {
-    var posts ="";
-    var userId =  localStorage.getItem("loginDetails");
+    var posts = "";
+    var userId = localStorage.getItem("loginDetails");
     var singlePostData;
-    var user ={username:"error",profilepicture:"profile.png"};
+    var user = { username: "error", profilepicture: "profile.png" };
 
 
 
     setDefaultEvents();
     /**
-         * Handles the hardware key events.
-         * @private
-         * @param {Object} event - The object contains data of key event
-         */
-         function keyEventHandler(event) {
-            if (event.keyName === "back") {
-                try {
-                    tizen.application.getCurrentApplication().exit();
-                } catch (ignore) {}
-            }
+     * Handles the hardware key events.
+     * @private
+     * @param {Object} event - The object contains data of key event
+     */
+    function keyEventHandler(event) {
+        if (event.keyName === "back") {
+            try {
+                tizen.application.getCurrentApplication().exit();
+            } catch (ignore) {}
         }
-             /**
-         * Sets default event listeners.
-         * @private
-         */
-         function setDefaultEvents() {
-            document.addEventListener("tizenhwkey", keyEventHandler);
-        }
+    }
+    /**
+     * Sets default event listeners.
+     * @private
+     */
+    function setDefaultEvents() {
+        document.addEventListener("tizenhwkey", keyEventHandler);
+    }
 
 
-loadUserDetails();
-var object = {};
-loadData().then(data=>{
-    $('#myList2').empty();
-    $('#myList').empty();
-    for(var e in data){
+    loadUserDetails();
+    var object = {};
+    loadData().then(data => {
+        $('#myList2').empty();
+        $('#myList').empty();
+        for (var e in data) {
 
-        
-        
-        object = data[e];
-        console.log( object)
-        if(data[e].upvotes.indexOf(userId)==-1)
-        {posts += `<div class="card gedf-card">
+
+
+            object = data[e];
+            console.log(object)
+            if (data[e].upvotes.indexOf(userId) == -1) { posts += `<div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
@@ -74,8 +70,8 @@ loadData().then(data=>{
             <a href="#" onclick="openComments('${data[e].id}','${object}',event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
             <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
             </div>
-    </div>`}else{
-        posts += `<div class="card gedf-card">
+    </div>` } else {
+                posts += `<div class="card gedf-card">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex justify-content-between align-items-center">
@@ -106,16 +102,17 @@ loadData().then(data=>{
         <a href="#" onclick="openComments('${data[e].id}',JSON.stringify(${data[e]}),event);" class="card-link"><i class="fa fa-comment"></i> Comment</a>
         <a href="#" onclick="shareFb(${data[e]});return false;"class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
         </div>
-</div>`}
-}
+</div>`
+            }
+        }
 
-     $('#myList').append(posts);
+        $('#myList').append(posts);
 
 
-}).catch(err=>{
+    }).catch(err => {
 
-    console.log(err)
-      $('#myList').append(`<div class="row">
+        console.log(err)
+        $('#myList').append(`<div class="row">
       <div class="col s12">
           <div class="entry">
               <span class="category">Funny</span>
@@ -127,31 +124,31 @@ loadData().then(data=>{
       </div>
   </div>`);
 
-})
+    })
 
 
 
-      
+
 
 }
 
 
 
 
-function openComments(id,data){
-console.log(id);
-console.log(data[1])
+function openComments(id, data) {
+    console.log(id);
+    console.log(data[1])
     localStorage.setItem("postId", id);
-    localStorage.setItem("postData",JSON.stringify(data));
+    localStorage.setItem("postData", JSON.stringify(data));
     window.location.href = "single-post-gif.html"
 
 
 
 }
 
-function Like(postId, event){
+function Like(postId, event) {
     event.preventDefault();
-    
+
     var idClass = '#';
     idClass += postId;
     var Atoken = localStorage.getItem("Atoken");
@@ -165,39 +162,39 @@ function Like(postId, event){
     console.info(data);
     // Create our request constructor with all the parameters we need
     var request = new Request(url, {
-        method: 'POST', 
+        method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
             // "Content-Type": "application/x-www-form-urlencoded",
         },
         body: JSON.stringify(data)
     });
-    
+
     fetch(request)
-    .then(data=> {
-        if(data.ok){
-        console.log("like ", data)
-        $(idClass).css('color','red');
-        }else{
-            console.log("dislike ", data)
+        .then(data => {
+            if (data.ok) {
+                console.log("like ", data)
+                $(idClass).css('color', 'red');
+            } else {
+                console.log("dislike ", data)
 
-              $(idClass).css('color','black');
-        dislike(postId);
-    }
-        // Handle response we get from the API
-    }).catch(err=>{
-        $(idClass).css('color','black');
+                $(idClass).css('color', 'black');
+                dislike(postId);
+            }
+            // Handle response we get from the API
+        }).catch(err => {
+            $(idClass).css('color', 'black');
 
-        console.log(err)
-    })
+            console.log(err)
+        })
 
 }
 
-function checkLike(){
-    
+function checkLike() {
+
 }
 
-function dislike(postId){
+function dislike(postId) {
     var Atoken = localStorage.getItem("Atoken");
     var userId =  localStorage.getItem("loginDetails");
     const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/downvote';
@@ -209,35 +206,39 @@ function dislike(postId){
     console.info(data);
     // Create our request constructor with all the parameters we need
     var request = new Request(url, {
-        method: 'POST', 
+        method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
             // "Content-Type": "application/x-www-form-urlencoded",
         },
         body: JSON.stringify(data)
     });
-    
+
     fetch(request)
-    .then(function() {
-        console.log("dislike")
-       
-        
-        // Handle response we get from the API
-    }).catch(err=>console.log(err))
+        .then(function() {
+            console.log("dislike")
+
+
+            // Handle response we get from the API
+        }).catch(err => console.log(err))
 
 }
 
 
-function loadUserDetails(){
+function loadUserDetails() {
     console.log(localStorage.getItem("loginDetails"));
+    var photo1 = localStorage.getItem("profilepicture");
+
+    document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+
     var xhr = new XMLHttpRequest();
 
-   var userId = localStorage.getItem("loginDetails");
-    var url = "https://goga-api.herokuapp.com/api/users/"+userId;
+    var userId = localStorage.getItem("loginDetails");
+    var url = "https://goga-api.herokuapp.com/api/users/" + userId;
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
- 
-    xhr.onreadystatechange = function () {
+
+    xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             console.log(json);
@@ -249,44 +250,47 @@ function loadUserDetails(){
             localStorage.setItem("profilepicture", json.profilepicture);
 
 
-        }else {
+            localStorage.setItem("username", json.username);
+            localStorage.setItem("profilepicture", json.profilepicture);
+            localStorage.setItem("email", json.email);
+        } else {
             console.log("error");
-         //   loginResults()}
-    } 
+            //   loginResults()}
+        }
 
+
+    }
+    xhr.send();
 
 }
-xhr.send();
-
-}
 
 
-const loadData = async () => {
-   const url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%2C%22include%22%3A%20%22user%22%7D";
+const loadData = async() => {
+    const url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%2C%22include%22%3A%20%22user%22%7D";
 
-  
-      
-      let data =  (await fetch(url)).json();
-      
+
+
+    let data = (await fetch(url)).json();
+
     return data;
-  }
+}
 
 
 
 
- function loadPosts(){
+function loadPosts() {
     var xhr = new XMLHttpRequest();
 
     var url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
- 
-    xhr.onreadystatechange = function () {
+
+    xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             console.log(json);
             //loginResults();
-           var posts = `<div class="row">
+            var posts = `<div class="row">
            <div class="col s12">
                <div class="entry">
                    <span class="category">Funny</span>
@@ -297,7 +301,7 @@ const loadData = async () => {
                </div>
            </div>
        </div>`
-       $('#myList').append(`<div class="row">
+            $('#myList').append(`<div class="row">
        <div class="col s12">
            <div class="entry">
                <span class="category">Funny</span>
@@ -308,7 +312,7 @@ const loadData = async () => {
            </div>
        </div>
    </div>`);
-        }else {
+        } else {
             console.log("error");
             var posts = `<div class="row">
             <div class="col s12">
@@ -332,11 +336,11 @@ const loadData = async () => {
                 </div>
             </div>
         </div>`);
-         //   loginResults()}
-    } 
+            //   loginResults()}
+        }
 
 
-}
-xhr.send();
+    }
+    xhr.send();
 
 }

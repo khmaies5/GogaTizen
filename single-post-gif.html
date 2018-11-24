@@ -2,25 +2,26 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Goga - funny & memes</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="HandheldFriendly" content="True">
-	
-	<link rel="shortcut icon" href="img/favicon.png">
+    <meta charset="UTF-8">
+    <title>Goga - funny & memes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
 
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/materialize.min.css">
-	<link rel="stylesheet" href="css/slick.css">
-	<link rel="stylesheet" href="css/slick-theme.css">
-	<link rel="stylesheet" href="css/owl.carousel.css">
-	<link rel="stylesheet" href="css/owl.theme.css">
-	<link rel="stylesheet" href="css/owl.transitions.css">
-	<link rel="stylesheet" href="css/lightbox.min.css">
-	<link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/slick-theme.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.transitions.css">
+    <link rel="stylesheet" href="css/lightbox.min.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
 	<!-- navbar -->
@@ -191,34 +192,33 @@
             } catch (ignore) {}
         }
     }
-		 /**
-     * Sets default event listeners.
-     * @private
-     */
-	 function setDefaultEvents() {
-        document.addEventListener("tizenhwkey", keyEventHandler);
-    }
+        /**
+         * Sets default event listeners.
+         * @private
+         */
+        function setDefaultEvents() {
+            document.addEventListener("tizenhwkey", keyEventHandler);
+        }
 
 
-loadPost();
-		
-function loadPost(){
-	var postId = localStorage.getItem("postId")
-	var post = ''
-	var url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'?filter=%7B%22include%22%3A%20%22user%22%7D'
+        loadPost();
 
-	
+        function loadPost() {
+            var postId = localStorage.getItem("postId")
+            var post = ''
+            var url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '?filter=%7B%22include%22%3A%20%22user%22%7D'
 
 
-				fetch(url).then(data=>{
-				return data.json();
-				}
-				).then(json=>{
-						
-					console.log(json)
-					$('#myList2').empty();
 
-					 post = `<img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+
+            fetch(url).then(data => {
+                return data.json();
+            }).then(json => {
+
+                console.log(json)
+                $('#myList2').empty();
+
+                post = `<img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
 				<h5>${json.title}</h5>
 				<div class="user-date">
 					<ul>
@@ -236,77 +236,78 @@ function loadPost(){
 					</ul>
 				</div>`
 
-		
-		$('#myList').append(post)
-		loadComments();
-	}).catch()
 
-}
+                $('#myList').append(post)
+                loadComments();
+            }).catch()
 
-		function postComment(event){
-			event.preventDefault();
-			
-			
-			
-			///////////////////////////////
-			var userId =  localStorage.getItem("loginDetails");
-			var postId = localStorage.getItem("postId")
+        }
 
-    const url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/comments';
-    // The data we are going to send in our request
-    let data = {
-        userId: userId,
-		text:$("#commentText").val(),
-		profilepicture:"profile.png"
-		
-    }
-    console.info(data);
-    // Create our request constructor with all the parameters we need
-    var request = new Request(url, {
-        method: 'POST', 
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            // "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: JSON.stringify(data)
-	});
-	console.log("commmmm ",$("#commentText").val())
-    if($("#commentText").val() != "")
-    {fetch(request)
-    .then(data=> {
-        if(data.ok){
-			window.location.href = "single-post-gif.html"
-        }else{
-            console.log("error submit ", data)
-
-              
-    }
-        // Handle response we get from the API
-    }).catch(err=>{
-
-        console.log("post ",err)
-    })}else {
-
-		 window.Materialize.toast('comment cant be empty !', 2000)
-	}
+        function postComment(event) {
+            event.preventDefault();
 
 
-		}
+
+            ///////////////////////////////
+            var userId = localStorage.getItem("loginDetails");
+            var postId = localStorage.getItem("postId")
+
+            const url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/comments';
+            // The data we are going to send in our request
+            let data = {
+                userId: userId,
+                text: $("#commentText").val(),
+                profilepicture: "profile.png"
+
+            }
+            console.info(data);
+            // Create our request constructor with all the parameters we need
+            var request = new Request(url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: JSON.stringify(data)
+            });
+            console.log("commmmm ", $("#commentText").val())
+            if ($("#commentText").val() != "") {
+                fetch(request)
+                    .then(data => {
+                        if (data.ok) {
+                            window.location.href = "single-post-gif.html"
+                        } else {
+                            console.log("error submit ", data)
 
 
-function loadComments(){
-	var postData = JSON.parse(localStorage.getItem("postData"));
-	var postId = localStorage.getItem("postId")
-	var userId = localStorage.getItem("loginDetails");
-	var comments = '';
-		var url = 'https://goga-api.herokuapp.com/api/posts/'+postId+'/comments'
+                        }
+                        // Handle response we get from the API
+                    }).catch(err => {
 
-	fetch(url).then(response=>{
-		return response.json();
-	}).then(data=>{
-		for(var e in data){
-			console.log(data)
-			comments +=`<li class="comment user-comment">
+                        console.log("post ", err)
+                    })
+            } else {
+
+                window.Materialize.toast('comment cant be empty !', 2000)
+            }
+
+
+        }
+
+
+        function loadComments() {
+            var postData = JSON.parse(localStorage.getItem("postData"));
+            var postId = localStorage.getItem("postId")
+            var userId = localStorage.getItem("loginDetails");
+            var comments = '';
+            var url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/comments'
+
+            fetch(url).then(response => {
+                return response.json();
+            }).then(data => {
+                for (var e in data) {
+                    console.log(data)
+                    comments += `<li class="comment user-comment">
 					<div class="info">
 						<a href="#">${data[e].username}</a>
 						<span data-livestamp="${data[e].createdDate}"></span>
@@ -317,13 +318,13 @@ function loadComments(){
 				<p>${data[e].text}</p>
 				</li>
 			`
-		}
-		document.getElementById('com').innerHTML += comments;
-		$('#entry ul').html(comments);
-		
-	}).catch()
-}
-	</script>
+                }
+                document.getElementById('com').innerHTML += comments;
+                $('#entry ul').html(comments);
+
+            }).catch()
+        }
+    </script>
 
 </body>
 

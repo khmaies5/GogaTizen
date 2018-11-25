@@ -79,27 +79,48 @@
 				<h3>Add new post</h3>
 			</div>
 			<form  id="AddPostForm" onsubmit="return false">
-					  <span>Image</span>
-					  <input id="files" type="file">
+				<div class="avatar-upload">
+					<div class="avatar-edit">
+						<input type='file' id="imageUpload" accept=".png, .jpg, .jpeg, .gif" />
+						<label for="imageUpload"></label>
+					</div>
+					<div class="avatar-preview">
+						<div id="imagePreview" style="background-image: url(./img/fa-image.png);">
+						</div>
+					</div>
+				</div>
 				
 
 				<div class="post">
 					<div class="entry" id="preview" style="display:none;">
 					</div>
 				</div>
-				<br><br><br><br><br><br><br>
+				
 				<input type="text" id="descrition" placeholder="Short description">
 
 				<span class="helper-text" id='message'></span>
-					<div class="loader" id="submitLoader" style="width: 25px;margin: 15px auto;height: 13px;display: none;">
-						<div>
-							<div style="animation: rotate .75s 0s linear infinite;border:2px solid #E2B13C ;-webkit-animation: rotate .75s 0s linear infinite;"></div>
-						</div>
-					</div>
+					
 					<div>
 						<div id="msg" style="width: 75%;display:none;margin:0 auto 5px auto">Post Added Successfully</div>
 					</div>
-				<button class="button" onclick="uploadImage()" id="register">Post</button>
+				<button class="button" onclick="uploadImage()" id="register">Post</button>		
+				<section id="loading">
+					<article class="spinner_one">
+						<div class="mask">
+							<span class="line"></span>
+						</div>
+					</article>
+					<article class="spinner_two">
+						<div class="mask">
+							<span class="line"></span>
+						</div>
+					</article>
+					<article class="spinner_three">
+						<div class="mask">
+							<span class="line"></span>
+						</div>
+					</article>
+			 </section>
 			</form>
 			
 		</div>
@@ -115,7 +136,11 @@
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/custom.js"></script>
 	<script>
-
+   $('#loading').hide();
+   $('#register').click(function(){
+	$(this).hide();
+	$('#loading').fadeIn(400);
+});	
 		document.getElementById("name").innerHTML =   localStorage.getItem("username");
 
 
@@ -146,38 +171,24 @@ setDefaultEvents();
 	var filename;
 	var strImage;
 	var image;
-		$("#files").val("");
-			$(document).ready(function () {
-				if (window.File && window.FileList && window.FileReader) {
-					$("#files").on("change", function (e) {
-						var files = e.target.files,
-							filesLength = files.length;
-						for (var i = 0; i < filesLength; i++) {
-							var f = files[i]
-							var fileReader = new FileReader();
-							filename = files[i].name;
-							image = files[0];
-							fileReader.filename = files[i].name.split('.')[0];
-							fileReader.onload = (function (e) {
-								var file = e.target;
-								$('#preview').children().last().remove();
-								// fill array of images with data selected to send to request	 
-								$("#preview").attr('style', 'display:flex;overflow-x: scroll;overflow-y: hidden;');
-								$("<img></img>", {
-									id: "prevthumbnail",
-									class: "entry",
-									src: e.target.result,
-									title: file.filename
-								}).appendTo("#preview");
-								// fill image array with 64 base images 
-								//filter image base 64 from prefixes data:image/....
-								 strImage = e.target.result.replace(/^data:image\/[a-z]+;base64,/, "");
-							});
-							fileReader.readAsDataURL(f);
-						}
-					});
-				} else { alert("Your browser doesn't support to File API") }
-			});
+		
+
+			function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+		reader.readAsDataURL(input.files[0]);
+		image = input.files[0];
+		filename = input.files[0].name;
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
 function uploadImage(){
 	$("#submitLoader").css("display", "block");
 
@@ -190,8 +201,9 @@ function uploadImage(){
         method: 'POST', 
         
         body: fd
-    });
-  if(fd!=null&&$("#descrition").val()!="")  
+	});
+	console.log("fd ",image)
+  if(image && fd!=null && $("#descrition").val()!="")  
     {fetch(request)
     .then(data=> {
         if(data.ok){
@@ -214,8 +226,8 @@ function uploadImage(){
 }
 			function SaveProduct() {
 			//loader show 
-			$("#submitLoader").css("display", "block");
-			
+
+		
 			///////////////////////////////
 			var userId =  localStorage.getItem("loginDetails");
     const url = 'https://goga-api.herokuapp.com/api/posts';
@@ -239,7 +251,6 @@ function uploadImage(){
     fetch(request)
     .then(data=> {
         if(data.ok){
-			$("#submitLoader").css("display", "none");
 					$("#msg").css("display", "block");
 					$('#msg').fadeIn();
 					$('#msg').fadeOut(2000, function () { window.location.href = "index-mobile.html"; }

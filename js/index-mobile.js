@@ -39,8 +39,11 @@ window.onload = function () {
 
 
 
-        for (var e in data) {
-
+        if(data.length>0)
+        {
+            
+            for (var e in data) {
+          
 
 
             if (data[e].upvotes.indexOf(userId) == -1) {
@@ -92,7 +95,7 @@ window.onload = function () {
 
     </div>
     <div class="card-body">
-        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp="${data[e].datepublication}"></span></div>
+        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp=" ${data[e].datepublication}"></span></div>
         <div class="entry">
         <span class="category">Funny</span>
         <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}
@@ -109,10 +112,21 @@ window.onload = function () {
 </div>`
             }
         }
-
         $('#myList').append(posts);
+    }else {
+        $('#myList').append(`<div class="row">
+        <div class="col s12">
+            <div class="entry">
+                <span class="category">Funny</span>
+                <img src="./img/empty.gif" alt="">
+                <h5><a href="new-post.html">nothing here </a></h5>
+                <span class="author">By <a href="new-post.html">Admin</a></span>
+                <p>try to upload post</p>
+            </div>
+        </div>
+    </div>`);
 
-
+    }
     }).catch(err => {
 
         console.log(err)

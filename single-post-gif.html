@@ -57,7 +57,7 @@
                     <a href="index-mobile.html"><i class="fa fa-home"></i>Home</a>           
             </li>
 				<li>
-					<a href="settings.html"><i class="fa fa-cog"></i>Settings</a>
+					<a href="settings.html"><i class="fa fa-cog"></i>Profile Settings</a>
 				</li>
 				<li>
 					<a href="author-page.html"><i class="fa fa-list"></i>My Posts</a>
@@ -138,30 +138,36 @@
 
     var photo1 = localStorage.getItem("profilepicture");
 
-    document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+    document.getElementById("photop").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
 
             
 
-		setDefaultEvents();
-/**
+	
+
+    setDefaultEvents();
+    /**
      * Handles the hardware key events.
      * @private
      * @param {Object} event - The object contains data of key event
      */
-	 function keyEventHandler(event) {
-        if (event.keyName === "back") {
-            try {
-                tizen.application.getCurrentApplication().exit();
-            } catch (ignore) {}
-        }
+     function keyEventHandler(event) {
+			if (event.keyName === "back") {
+					try {
+							window.history.back();
+					} catch (ignore) {
+							tizen.application.getCurrentApplication().exit();
+
+					}
+			}
+	}
+    /**
+     * Sets default event listeners.
+     * @private
+     */
+    function setDefaultEvents() {
+        document.addEventListener("tizenhwkey", keyEventHandler);
     }
-        /**
-         * Sets default event listeners.
-         * @private
-         */
-        function setDefaultEvents() {
-            document.addEventListener("tizenhwkey", keyEventHandler);
-        }
+
 
 
         loadPost();
@@ -169,7 +175,7 @@
         function loadPost() {
             var postId = localStorage.getItem("postId")
             var post = ''
-            var url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '?filter=%7B%22include%22%3A%20%22user%22%7D'
+            var url = 'http://41.226.11.243:10003/api/posts/' + postId + '?filter=%7B%22include%22%3A%20%22user%22%7D'
 
             var username = "user";
 
@@ -184,7 +190,7 @@
                     username = json.user.username;
                 }
 
-                post = `<img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
+                post = `<img src="http://41.226.11.243:10003/api/attachments/images/download/${json.type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
 				<h5>${json.title}</h5>
 				<div class="user-date">
 					<ul>
@@ -210,7 +216,7 @@
             var userId = localStorage.getItem("loginDetails");
             var postId = localStorage.getItem("postId")
 
-            const url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/comments';
+            const url = 'http://41.226.11.243:10003/api/posts/' + postId + '/comments';
             // The data we are going to send in our request
             let data = {
                 userId: userId,
@@ -259,7 +265,7 @@
             var postId = localStorage.getItem("postId")
             var userId = localStorage.getItem("loginDetails");
             var comments = '';
-            var url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/comments'
+            var url = 'http://41.226.11.243:10003/api/posts/' + postId + '/comments'
 
             fetch(url).then(response => {
                 return response.json();
@@ -272,7 +278,7 @@
 						<span data-livestamp="${data[e].createdDate}"></span>
 				</div>
 			<a class="avatar" >
-			<img src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].profilepicture}" style="width:25px;height:25px;" height="10" width="10" alt="Profile Avatar" title="${data[e].username}" />
+			<img src="http://41.226.11.243:10003/api/attachments/profilepicture/download/${data[e].profilepicture}" style="width:25px;height:25px;" height="10" width="10" alt="Profile Avatar" title="${data[e].username}" />
 			</a>
 				<p>${data[e].text}</p>
 				</li>

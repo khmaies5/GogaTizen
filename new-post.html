@@ -18,6 +18,8 @@
 	<link rel="stylesheet" href="css/owl.theme.css">
 	<link rel="stylesheet" href="css/owl.transitions.css">
 	<link rel="stylesheet" href="css/lightbox.min.css">
+	<link rel="stylesheet" type="text/css" href="css/loading.css" />
+	<link rel="stylesheet" type="text/css" href="css/loading-btn.css" />
 	<link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -103,24 +105,10 @@
 					<div>
 						<div id="msg" style="width: 75%;display:none;margin:0 auto 5px auto">Post Added Successfully</div>
 					</div>
-				<button class="button" onclick="uploadImage()" id="register">Post</button>		
-				<section id="loading">
-					<article class="spinner_one">
-						<div class="mask">
-							<span class="line"></span>
-						</div>
-					</article>
-					<article class="spinner_two">
-						<div class="mask">
-							<span class="line"></span>
-						</div>
-					</article>
-					<article class="spinner_three">
-						<div class="mask">
-							<span class="line"></span>
-						</div>
-					</article>
-			 </section>
+				<button class="button ld-over" onclick="uploadImage()" id="register">Post
+					<div class="ld ld-ring ld-spin"></div>
+
+			</button>
 			</form>
 			
 		</div>
@@ -136,17 +124,43 @@
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/custom.js"></script>
 	<script>
-   $('#loading').hide();
-   $('#register').click(function(){
-	$(this).hide();
-	$('#loading').fadeIn(400);
-});	
+
+
+
+
+    setDefaultEvents();
+    /**
+     * Handles the hardware key events.
+     * @private
+     * @param {Object} event - The object contains data of key event
+     */
+	 function keyEventHandler(event) {
+			if (event.keyName === "back") {
+					try {
+							window.history.back();
+					} catch (ignore) {
+							tizen.application.getCurrentApplication().exit();
+
+					}
+			}
+	}
+    /**
+     * Sets default event listeners.
+     * @private
+     */
+    function setDefaultEvents() {
+        document.addEventListener("tizenhwkey", keyEventHandler);
+    }
+
+
+
+   
 		document.getElementById("name").innerHTML =   localStorage.getItem("username");
 
 
 var photo1 = localStorage.getItem("profilepicture");
 
-document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+document.getElementById("photop").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
 
 setDefaultEvents();
 /**
@@ -190,9 +204,13 @@ $("#imageUpload").change(function() {
     readURL(this);
 });
 function uploadImage(){
-	$("#submitLoader").css("display", "block");
 
-	 const url = 'https://goga-api.herokuapp.com/api/attachments/images/upload';
+
+	document.getElementById("register").className += " running";
+
+
+
+	 const url = 'http://41.226.11.243:10003/api/attachments/images/upload';
 	 var fd = new FormData();
     // The data we are going to send in our request
     fd.append('file',image)
@@ -204,7 +222,8 @@ function uploadImage(){
 	});
 	console.log("fd ",image)
   if(image && fd!=null && $("#descrition").val()!="")  
-    {fetch(request)
+    {
+		fetch(request)
     .then(data=> {
         if(data.ok){
 			SaveProduct();			
@@ -219,6 +238,8 @@ function uploadImage(){
         console.log("upload ",err)
     })}else {
 		window.Materialize.toast('you need to choose image and write something !', 4000)
+		document.getElementById("register").className = "button ld-over";
+
 
 	}
 
@@ -230,7 +251,7 @@ function uploadImage(){
 		
 			///////////////////////////////
 			var userId =  localStorage.getItem("loginDetails");
-    const url = 'https://goga-api.herokuapp.com/api/posts';
+    const url = 'http://41.226.11.243:10003/api/posts';
     // The data we are going to send in our request
     let data = {
         userId: userId,

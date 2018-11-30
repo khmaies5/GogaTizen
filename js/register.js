@@ -21,7 +21,7 @@ function register(form) {
     var lname = form.lastname.value;
     var fname = form.firstname.value;
 
-    var url = "https://goga-api.herokuapp.com/api/users";
+    var url = "http://41.226.11.243:10003/api/users";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 

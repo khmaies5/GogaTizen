@@ -43,7 +43,7 @@ function login(form) {
     var pw = form.password.value;
     loginBtn.className += " running";
 
-    var url = "https://goga-api.herokuapp.com/api/users/login";
+    var url = "http://41.226.11.243:10003/api/users/login";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
@@ -82,12 +82,7 @@ function loginResults() {
     var badLogin = document.getElementById("BadLogin");
     if (xhr.status == 200) {
 
-        badLogin.innerHTML = "Logged in as " + xhr.responseText;
-
-        badLogin.style.visibility = "visible";
-
-        badLogin.style.display = "block";
-        // loginForm.style.display = "none";
+       
 
         location.replace("index-mobile.html");
         // navigate to home and store user details her

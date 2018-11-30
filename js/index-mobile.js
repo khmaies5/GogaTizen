@@ -19,7 +19,9 @@ window.onload = function () {
         if (event.keyName === "back") {
             try {
                 tizen.application.getCurrentApplication().exit();
-            } catch (ignore) {}
+            } catch (e) {
+                tizen.application.getCurrentApplication().exit();
+            }
         }
     }
     /**
@@ -48,12 +50,12 @@ window.onload = function () {
 
             if (data[e].upvotes.indexOf(userId) == -1) {
 
-                posts += `<div class="card gedf-card">
+                posts += `<div onclick="openComments('${data[e].id}','${data[e]}',event);" class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="mr-2">
-                        <img class="rounded-circle" width="45" src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].user.profilepicture}" alt="">
+                        <img class="rounded-circle" width="45" src="http://41.226.11.243:10003/api/attachments/profilepicture/download/${data[e].user.profilepicture}" alt="">
                     </div>
                     <div class="ml-2">
                         <div class="h5 m-0">${data[e].user.username}</div>
@@ -67,8 +69,8 @@ window.onload = function () {
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp="${data[e].datepublication}"></span></div>
             <div class="entry">
             <span class="category">Funny</span>
-            <img src= "https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
-            <h5><a href="#">${data[e].title}</a></h5>
+            <img src= "http://41.226.11.243:10003/api/attachments/images/download/${data[e].type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
+            <h5><a href="#" >${data[e].title}</a></h5>
            
         </div>
 
@@ -84,7 +86,7 @@ window.onload = function () {
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="mr-2">
-                    <img class="rounded-circle" width="45" src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].user.profilepicture}" alt="">
+                    <img class="rounded-circle" width="45" src="http://41.226.11.243:10003/api/attachments/profilepicture/download/${data[e].user.profilepicture}" alt="">
                 </div>
                 <div class="ml-2">
                     <div class="h5 m-0">${data[e].user.username}</div>
@@ -98,7 +100,7 @@ window.onload = function () {
         <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp=" ${data[e].datepublication}"></span></div>
         <div class="entry">
         <span class="category">Funny</span>
-        <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}
+        <img src="http://41.226.11.243:10003/api/attachments/images/download/${data[e].type}
         " onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
         <h5><a href="#">${data[e].title}</a></h5>
        
@@ -176,7 +178,7 @@ function Like(postId, event) {
     idClass += postId;
     var Atoken = localStorage.getItem("Atoken");
     var userId = localStorage.getItem("loginDetails");
-    const url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/upvote';
+    const url = 'http://41.226.11.243:10003/api/posts/' + postId + '/upvote';
     // The data we are going to send in our request
     let data = {
         userId: userId,
@@ -220,7 +222,7 @@ function checkLike() {
 function dislike(postId) {
     var Atoken = localStorage.getItem("Atoken");
     var userId = localStorage.getItem("loginDetails");
-    const url = 'https://goga-api.herokuapp.com/api/posts/' + postId + '/downvote';
+    const url = 'http://41.226.11.243:10003/api/posts/' + postId + '/downvote';
     // The data we are going to send in our request
     let data = {
         userId: userId,
@@ -254,7 +256,7 @@ function loadUserDetails() {
     var xhr = new XMLHttpRequest();
 
     var userId = localStorage.getItem("loginDetails");
-    var url = "https://goga-api.herokuapp.com/api/users/" + userId;
+    var url = "http://41.226.11.243:10003/api/users/" + userId;
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
@@ -283,14 +285,14 @@ function loadUserDetails() {
 
     var photo1 = localStorage.getItem("profilepicture");
 
-    document.getElementById("photop").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+    document.getElementById("photop").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
 
 
 }
 
 
 const loadData = async () => {
-    const url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%2C%22include%22%3A%20%22user%22%7D";
+    const url = "http://41.226.11.243:10003/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%2C%22include%22%3A%20%22user%22%7D";
 
 
 
@@ -305,7 +307,7 @@ const loadData = async () => {
 function loadPosts() {
     var xhr = new XMLHttpRequest();
 
-    var url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
+    var url = "http://41.226.11.243:10003/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
@@ -318,7 +320,7 @@ function loadPosts() {
            <div class="col s12">
                <div class="entry">
                    <span class="category">Funny</span>
-                   <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+                   <img src="http://41.226.11.243:10003/api/attachments/images/download/${json.type}" alt="">
                    <h5><a href="#">${json.title}</a></h5>
                    <span class="author">By <a href="#">Mario Doe</a></span>
                    <p>Lorem ipsum dolor sit amet consectetur</p>
@@ -329,7 +331,7 @@ function loadPosts() {
        <div class="col s12">
            <div class="entry">
                <span class="category">Funny</span>
-               <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+               <img src="http://41.226.11.243:10003/api/attachments/images/download/${json.type}" alt="">
                <h5><a href="#">${json.title}</a></h5>
                <span class="author">By <a href="#">Mario Doe</a></span>
                <p>Lorem ipsum dolor sit amet consectetur</p>

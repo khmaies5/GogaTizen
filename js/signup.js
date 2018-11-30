@@ -1,12 +1,31 @@
 window.onload = function() {
 	 // add eventListener for tizenhwkey
-    document.addEventListener('tizenhwkey', function(e) {
-        if (e.keyName === "back") {
-            try {
-                tizen.application.getCurrentApplication().exit();
-            } catch (ignore) {}
-        }
-    });
+   
+
+	 setDefaultEvents();
+	 /**
+		* Handles the hardware key events.
+		* @private
+		* @param {Object} event - The object contains data of key event
+		*/
+		function keyEventHandler(event) {
+			if (event.keyName === "back") {
+					try {
+							window.history.back();
+					} catch (ignore) {
+							tizen.application.getCurrentApplication().exit();
+
+					}
+			}
+	}
+	 /**
+		* Sets default event listeners.
+		* @private
+		*/
+	 function setDefaultEvents() {
+			 document.addEventListener("tizenhwkey", keyEventHandler);
+	 }
+
     
     $('.email').on("change keyup paste",
     		  function(){

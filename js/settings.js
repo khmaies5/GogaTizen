@@ -6,6 +6,33 @@ window.onload = function() {
            login(loginForm);
        });*/
 
+
+       
+
+    setDefaultEvents();
+    /**
+     * Handles the hardware key events.
+     * @private
+     * @param {Object} event - The object contains data of key event
+     */
+    function keyEventHandler(event) {
+        if (event.keyName === "back") {
+                try {
+                        window.history.back();
+                } catch (ignore) {
+                        tizen.application.getCurrentApplication().exit();
+
+                }
+        }
+}
+    /**
+     * Sets default event listeners.
+     * @private
+     */
+    function setDefaultEvents() {
+        document.addEventListener("tizenhwkey", keyEventHandler);
+    }
+
            
     settings(settingsForm);
 
@@ -22,8 +49,8 @@ function settings(form) {
     console.log("profile ", localStorage.getItem("username"));
     var photo1 = localStorage.getItem("profilepicture");
 
-    document.getElementById("photo").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
-    document.getElementById("photo2").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+    document.getElementById("photo").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
+    document.getElementById("photo2").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
     console.log("photo", localStorage.getItem("profilepicture"));
 
     document.getElementById("name").innerHTML = name;
@@ -38,7 +65,7 @@ function changeProfile() {
 
     var userId = localStorage.getItem("loginDetails");
 
-    var url = "https://goga-api.herokuapp.com/api/users/" + userId;
+    var url = "http://41.226.11.243:10003/api/users/" + userId;
     xhr.open("PUT", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 

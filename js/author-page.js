@@ -2,16 +2,50 @@ window.onload = function() {
     var posts;
     // loadUserDetails();
 
+
+
+
+
+    setDefaultEvents();
+    /**
+     * Handles the hardware key events.
+     * @private
+     * @param {Object} event - The object contains data of key event
+     */
+    function keyEventHandler(event) {
+        if (event.keyName === "back") {
+                try {
+                        window.history.back();
+                } catch (ignore) {
+                        tizen.application.getCurrentApplication().exit();
+
+                }
+        }
+}
+    /**
+     * Sets default event listeners.
+     * @private
+     */
+    function setDefaultEvents() {
+        document.addEventListener("tizenhwkey", keyEventHandler);
+    }
+
+
+
+
     var photo1 = localStorage.getItem("profilepicture");
     var name = localStorage.getItem("username");
-    document.getElementById("photo2").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
-    document.getElementById("photo3").src = "https://goga-api.herokuapp.com/api/attachments/profilepicture/download/" + photo1;
+    document.getElementById("photo2").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
+    document.getElementById("photo3").src = "http://41.226.11.243:10003/api/attachments/profilepicture/download/" + photo1;
     document.getElementById("Name").innerHTML = name;
     document.getElementById("name").innerHTML = name;
 
     loadData().then(data => {
+        $('#myList2').empty();
 
-        console.log("count elemnt ",data.length);
+        $('#myList1').empty();
+
+        console.log("count elemnt ",data);
 if(data.length>0)
         {
             
@@ -26,10 +60,10 @@ if(data.length>0)
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="mr-2">
-                        <img class="rounded-circle" width="45" src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].user.profilepicture}" alt="">
+                        <img class="rounded-circle" width="45" src="http://41.226.11.243:10003/api/attachments/profilepicture/download/${photo1}" alt="">
                     </div>
                     <div class="ml-2">
-                        <div class="h5 m-0">${data[e].user.username}</div>
+                        <div class="h5 m-0">${name}</div>
                     </div>
                 </div>
               
@@ -40,7 +74,7 @@ if(data.length>0)
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp="${data[e].datepublication}"></span></div>
             <div class="entry">
             <span class="category">Funny</span>
-            <img src= "https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
+            <img src= "http://41.226.11.243:10003/api/attachments/images/download/${data[e].type}" onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
             <h5><a href="#">${data[e].title}</a></h5>
            
         </div>
@@ -57,10 +91,10 @@ if(data.length>0)
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="mr-2">
-                    <img class="rounded-circle" width="45" src="https://goga-api.herokuapp.com/api/attachments/profilepicture/download/${data[e].user.profilepicture}" alt="">
+                    <img class="rounded-circle" width="45" src="http://41.226.11.243:10003/api/attachments/profilepicture/download/${photo1}" alt="">
                 </div>
                 <div class="ml-2">
-                    <div class="h5 m-0">${data[e].user.username}</div>
+                    <div class="h5 m-0">${name}</div>
                 </div>
             </div>
           
@@ -71,7 +105,7 @@ if(data.length>0)
         <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><span data-livestamp="${data[e].datepublication}"></span></div>
         <div class="entry">
         <span class="category">Funny</span>
-        <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${data[e].type}
+        <img src="http://41.226.11.243:10003/api/attachments/images/download/${data[e].type}
         " onError="this.onerror=null;this.src='./img/loadingcat.gif';" alt="">
         <h5><a href="#">${data[e].title}</a></h5>
        
@@ -128,7 +162,7 @@ if(data.length>0)
 var userId = localStorage.getItem("loginDetails");
 const loadData = async() => {
 
-    const url = "https://goga-api.herokuapp.com/api/users/" + userId + "/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
+    const url = "http://41.226.11.243:10003/api/users/" + userId + "/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
 
 
 
@@ -143,7 +177,7 @@ const loadData = async() => {
 function loadPosts() {
     var xhr = new XMLHttpRequest();
 
-    var url = "https://goga-api.herokuapp.com/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
+    var url = "http://41.226.11.243:10003/api/posts?filter=%7B%22order%22%3A%22datepublication%20DESC%22%7D";
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
@@ -156,7 +190,7 @@ function loadPosts() {
            <div class="col s12">
                <div class="entry">
                    <span class="category">Funny</span>
-                   <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+                   <img src="http://41.226.11.243:10003/api/attachments/images/download/${json.type}" alt="">
                    <h5><a href="#">${json.title}</a></h5>
                    <span class="author">By <a href="#">Mario Doe</a></span>
                    <p>Lorem ipsum dolor sit amet consectetur</p>
@@ -167,7 +201,7 @@ function loadPosts() {
        <div class="col s12">
            <div class="entry">
                <span class="category">Funny</span>
-               <img src="https://goga-api.herokuapp.com/api/attachments/images/download/${json.type}" alt="">
+               <img src="http://41.226.11.243:10003/api/attachments/images/download/${json.type}" alt="">
                <h5><a href="#">${json.title}</a></h5>
                <span class="author">By <a href="#">Mario Doe</a></span>
                <p>Lorem ipsum dolor sit amet consectetur</p>
